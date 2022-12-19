@@ -1,14 +1,18 @@
 import express from "express";
-import redis from "redis";
+import * as dotenv from "dotenv";
+import * as redis from 'redis';
 import counterRoute from "./routes/counterRoute";
+import path from "path";
 
-const app = express();
+dotenv.config({ path: path.join(__dirname, "../config/.env") });
 
-app.use(express.urlencoded());
-app.use(express.json());
-app.use("/counter", counterRoute);
+const counter = express();
 
-const PORT = process.env.PORT || 3100;
+counter.use(express.urlencoded());
+counter.use(express.json());
+counter.use("/counter", counterRoute);
+
+const PORT = process.env.PORT || 3000;
 const REDIS_URL = process.env.REDIS_URL || "localhost";
 
 export const client = redis.createClient({ url: REDIS_URL });
@@ -17,6 +21,6 @@ export const client = redis.createClient({ url: REDIS_URL });
   await client.connect();
 })();
 
-app.listen(PORT, () => {
+counter.listen(PORT, () => {
   console.log(`Server started on port ${PORT}...`);
 });
