@@ -4,7 +4,7 @@ import getCounter from "../controllers/getCounter";
 
 const counterRoute = Router();
 
-counterRoute.post("/counter/:bookId/incr", incrCounter);
-counterRoute.get("/counter/:bookId", getCounter);
+counterRoute.post("/:bookId/incr", incrCounter);
+counterRoute.get("/:bookId", getCounter);
 
 export default counterRoute;
